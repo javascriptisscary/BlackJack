@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="blackjack.css">
+    <title>Blackjack</title>
+</head>
+
+<body>
+    
+    
+     <!-- rules button -->
+<div id="rules" class="rules">Rules</div>
+    
+<!-- Dealer's area. -->
+
+<div id="dealer1" class="playingField">
+  <div id="dealer">Dealer</div>
+  <div id="dealerScore" class="resultBox"></div>
+  <div class="cardArea"><div id="dealerCard"></div></div>
+
+
+<!-- Main player's area. -->
+
+<div id="player0" class="playingField">
+  <div class="player">Player</div>
+  <div id="player0Score"  class="resultBox"></div>
+    <div class="cardArea"><div id="player0Card"></div></div>
+   
+
+
+
+<!-- splits will be put here -->
+   
+<div id="splits"></div>
+
+
+<!-- Button area. -->
+<div id="dealField" class="dealing">
+    <div id="deal" class="dealbtn">Deal</div>
+    <div id="chips"></div>
+
+<form class="bAmount" id="betAmount">BET AMOUNT<input type="text" class="bAmount" id="playerBet"></form></div>
+<div id="buttons"> <div id="hit" class="btn dealing">Hit</div><div id="stand" class="btn dealing">Stand</div><div id="double" class="btn dealing">Double Down</div>
+ <div id="surr" class="btn dealing">Surrender</div><div id ="split" class="btn dealing">Split</div><div id="alert">Press Deal to Start!</div></div>
+ 
+
+ 
+ 
+ 
+ 
+</div>  
+
+
+</body>
+
+
+
+<script type="text/javascript">
+"use strict";
+//Card Object
+
+
+//parent
+function Card(suit, value, name, image) {
+    this.suit = suit;
+    this.value = value;
+    this.name = name;
+    this.image = image;
+    
+}
+
+
+//children (suits)
+function Spade(value, name, image) {
+    this.suit = "spades";
+    this.value = value;
+    this.name = name;
+    this.image = image;
+}
+
+function Heart(value, name, image) {
+    this.suit = "hearts";
+    this.value = value;
+    this.name = name;
+    this.image = image;
+}
+
+function Club(value, name, image) {
+    this.suit = "clubs";
+    this.value = value;
+    this.name = name;
+    this.image = image;
+}
+
+function Diamond(value, name, image) {
+    this.suit = "diamonds";
+    this.value = value;
+    this.name = name;
+    this.image = image;
+}
+
+//ace child
+function Ace(suit, name, image) {
+    this.value = 11;
+    this.secValue = 1;
+    this.name = name;
+    this.image = image;
+    
+    
+   
+}
+
+
+    //prototype to inherit from Card
+Spade.prototype = new Card();    
+Heart.prototype = new Card();   
+Club.prototype = new Card();
+Diamond.prototype = new Card();
+Ace.prototype = new Card();
+    
+    
+    
+    //ton of variables cuz i'm a noob and still learning lolz
+    //(value,name, image address)
+var s2 = new Spade(2, "2 of spades", "\"cardimages/2_of_spades.svg\"");
+var s3 = new Spade(3, "3 of spades", "\"cardimages/3_of_spades.svg\"");
+var s4 = new Spade(4, "4 of spades", "\"cardimages/4_of_spades.svg\"");
+var s5 = new Spade(5, "5 of spades", "\"cardimages/5_of_spades.svg\"");
+var s6 = new Spade(6, "6 of spades", "\"cardimages/6_of_spades.svg\"");
+var s7 = new Spade(7, "7 of spades", "\"cardimages/7_of_spades.svg\"");
+var s8 = new Spade(8, "8 of spades", "\"cardimages/8_of_spades.svg\"");
+var s9 = new Spade(9, "9 of spades", "\"cardimages/9_of_spades.svg\"");
+var sT = new Spade(10, "10 of spades", "\"cardimages/10_of_spades.svg\"");
+var sJ = new Spade(10, "Jack of spades", "\"cardimages/jack_of_spades2.svg\"");
+var sQ = new Spade(10, "Queen of spades", "\"cardimages/queen_of_spades2.svg\"");
+var sK = new Spade(10, "King of spades", "\"cardimages/king_of_spades2.svg\"");
+
+
+var h2 = new Heart(2, "2 of hearts", "\"cardimages/2_of_hearts.svg\"");
+var h3 = new Heart(3, "3 of hearts", "\"cardimages/3_of_hearts.svg\"");
+var h4 = new Heart(4, "4 of hearts", "\"cardimages/4_of_hearts.svg\"");
+var h5 = new Heart(5, "5 of hearts", "\"cardimages/5_of_hearts.svg\"");
+var h6 = new Heart(6, "6 of hearts", "\"cardimages/6_of_hearts.svg\"");
+var h7 = new Heart(7, "7 of hearts", "\"cardimages/7_of_hearts.svg\"");
+var h8 = new Heart(8, "8 of hearts", "\"cardimages/8_of_hearts.svg\"");
+var h9 = new Heart(9, "9 of hearts", "\"cardimages/9_of_hearts.svg\"");
+var hT = new Heart(10, "10 of hearts", "\"cardimages/10_of_hearts.svg\"");
+var hJ = new Heart(10, "Jack of hearts", "\"cardimages/jack_of_hearts2.svg\"");
+var hQ = new Heart(10, "Queen of hearts", "\"cardimages/queen_of_hearts2.svg\"");
+var hK = new Heart(10, "King of hearts", "\"cardimages/king_of_hearts2.svg\"");
+
+
+var c2 = new Club(2, "2 of clubs", "\"cardimages/2_of_clubs.svg\"");
+var c3 = new Club(3, "3 of clubs", "\"cardimages/3_of_clubs.svg\"");
+var c4 = new Club(4, "4 of clubs", "\"cardimages/4_of_clubs.svg\"");
+var c5 = new Club(5, "5 of clubs", "\"cardimages/5_of_clubs.svg\"");
+var c6 = new Club(6, "6 of clubs", "\"cardimages/6_of_clubs.svg\"");
+var c7 = new Club(7, "7 of clubs", "\"cardimages/7_of_clubs.svg\"");
+var c8 = new Club(8, "8 of clubs", "\"cardimages/8_of_clubs.svg\"");
+var c9 = new Club(9, "9 of clubs", "\"cardimages/9_of_clubs.svg\"");
+var cT = new Club(10, "10 of clubs","\"cardimages/10_of_clubs.svg\"");
+var cJ = new Club(10, "Jack of clubs", "\"cardimages/jack_of_clubs2.svg\"");
+var cQ = new Club(10, "Queen of clubs", "\"cardimages/queen_of_clubs2.svg\"");
+var cK = new Club(10, "King of clubs", "\"cardimages/king_of_clubs2.svg\"");
+
+
+
+var d2 = new Diamond(2, "2 of diamonds", "\"cardimages/2_of_diamonds.svg\"");
+var d3 = new Diamond(3, "3 of diamonds", "\"cardimages/3_of_diamonds.svg\"");
+var d4 = new Diamond(4, "4 of diamonds", "\"cardimages/4_of_diamonds.svg\"");
+var d5 = new Diamond(5, "5 of diamonds", "\"cardimages/5_of_diamonds.svg\"");
+var d6 = new Diamond(6, "6 of diamonds", "\"cardimages/6_of_diamonds.svg\"");
+var d7 = new Diamond(7, "7 of diamonds", "\"cardimages/7_of_diamonds.svg\"");
+var d8 = new Diamond(8, "8 of diamonds", "\"cardimages/8_of_diamonds.svg\"");
+var d9 = new Diamond(9, "9 of diamonds", "\"cardimages/9_of_diamonds.svg\"");
+var dT = new Diamond(10, "10 of diamonds", "\"cardimages/10_of_diamonds.svg\"");
+var dJ = new Diamond(10, "Jack of diamonds", "\"cardimages/jack_of_diamonds2.svg\"");
+var dQ = new Diamond(10, "Queen of diamonds", "\"cardimages/queen_of_diamonds2.svg\"");
+var dK = new Diamond(10, "King of diamonds", "\"cardimages/king_of_diamonds2.svg\"");
+
+
+
+//aces because need of second value of 1
+var sA = new Ace("spades", "Ace of spades","\"cardimages/ace_of_spades.svg\"");
+var hA = new Ace("hearts", "Ace of hearts","\"cardimages/ace_of_hearts.svg\"");
+var cA = new Ace("clubs", "Ace of clubs","\"cardimages/ace_of_clubs.svg\"");
+var dA = new Ace("diamonds", "Ace of diamonds","\"cardimages/ace_of_diamonds.svg\"");
+
+
+
+
+
+
+
+
+//deck object
+var deck = {
+    //array filled w 52 card variables
+        cards: [s2,s3,s4,s5,s6,s7,s8,s9,sT,sJ,sQ,sK,sA,
+                h2,h3,h4,h5,h6,h7,h8,h9,hT,hJ,hQ,hK,hA,
+                d2,d3,d4,d5,d6,d7,d8,d9,dT,dJ,dQ,dK,dA,
+                c2,c3,c4,c5,c6,c7,c8,c9,cT,cJ,cQ,cK,cA],
+      
+       
+        usedCards: [],
+        usedCardsPlayer: [],
+         
+        
+        
+        
+        
+        
+        
+        
+         deal: function() {
+        //.shift removes first element (top card) of array, and returns it.
+          return deck.cards.shift();
+
+         },
+         
+         
+         
+          //fisher yates shuffle!
+
+        shuffle: function() {
+            
+        var m = deck.cards.length, t, i;
+
+         // While there remain elements to shuffle…
+         while (m) {
+
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--);
+
+        // And swap it with the current element.
+         t = deck.cards[m];
+        deck.cards[m] = deck.cards[i];
+        deck.cards[i] = t;
+         }
+         
+
+
+  
+  
+  
+  return deck.cards;
+},
+
+
+//clear usedcards and playerusedcards arrays. clear hands array
+clearUsedCards: function() {
+       
+       //concat used cards if player splits
+       deck.cards = deck.cards.concat(Player.firstHandUsedCards);
+       
+       
+       //concat deck.cards and used.cards para restore deck.cards to 52 cards
+         deck.cards = deck.cards.concat(deck.usedCards);
+         
+     //concat deck.cards and used PLAYERS cards    
+         deck.cards = deck.cards.concat(deck.usedCardsPlayer);
+         
+         //dont need to concant aces as they are still in the usedcards arrays
+         
+         //empty the usedCards Arrays
+         deck.usedCards = [];
+         deck.usedCardsPlayer= [];
+         Player.aces= [];
+         Dealer.aces=[];
+         Player.firstHandUsedCards=[];
+        
+        
+         //empty hands array
+         Player.hands = [];
+    
+}
+
+
+
+
+
+
+            
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//BANK OBJECT
+
+var bank = {
+    chips: 1000,
+    bet: 0,
+    
+    
+    
+    //var bet = user inputted bet. bet subtracted from bank.chips.
+    wager: function() {
+  
+ 
+  
+    var bet = parseInt(document.getElementById("playerBet").value);
+
+return bet;
+},
+
+
+
+
+
+
+
+//figure out who wins and add or subtract money from chips.bank
+compareAndAward: function() {
+   
+  
+    
+    
+    //kill the yellow border on 2nd hand if there is a split
+if (Player.which >0) {
+  
+   document.getElementById("player1Card").style.border = "none";  
+}
+    
+   
+    
+    
+    
+    
+       
+       //dealers turn
+       Dealer.dealerPlays();
+       
+       
+       
+        //end if dealer busts (awards already taken care of in dealerBusts function)
+       if (Dealer.dealerTotal > 21) {
+        letsGo();
+        return;
+       }
+       
+       
+       
+       //there's been a split, compare hands in the array
+       if (Player.which >0) {
+        
+       
+       
+    
+        //compare hands in array vs dealer hand
+   for (var x =0; x <Player.hands.length; x++) {
+
+
+        
+
+    if (Player.hands[x] > Dealer.dealerTotal) {
+        alert("Player wins with " +Player.hands[x]+ " over Dealer's " +Dealer.dealerTotal+ ". Players wins " +bank.bet+ "!" );
+        bank.chips += (bank.bet * 2);
+        bank.changeChips();
+        
+        
+    } else if (Player.hands[x] < Dealer.dealerTotal ) {
+        alert("Dealer wins with " +Dealer.dealerTotal+ " over Player's " +Player.hands[x]+ ". Player loses " + bank.bet);
+    }
+    
+    //tie
+    else {
+        alert("Player and Dealer tie with " +Dealer.dealerTotal+". You get your bet back of " +bank.bet+".");
+        bank.chips += bank.bet;
+        bank.changeChips();
+    }
+    
+    
+    }
+    
+       }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+       
+       
+       
+      
+    
+    else {
+       
+       
+       
+        //player has higher total. award player chips and change display.
+        if (Player.total > Dealer.dealerTotal) {
+            document.getElementById("alert").innerHTML="Player wins " +bank.bet;
+            bank.chips += (bank.bet * 2);
+            bank.changeChips();
+        }
+        
+        
+        
+        //dealer wins. chips have already been taken out for bet so nothing needs to change.
+        else if (Player.total < Dealer.dealerTotal) {
+            document.getElementById("alert").innerHTML="Dealer wins. You lose " +bank.bet;
+        }
+        
+        
+        else {
+            document.getElementById("alert").innerHTML="Player and dealer tie with. You got back your bet of "+bank.bet;
+            bank.chips+= bank.bet;
+            bank.changeChips();
+            
+        }
+        
+        
+    }
+    
+ 
+    
+    
+    
+    
+
+
+    
+
+    
+    
+    
+       //reset (except for chips) and start all over
+    letsGo();
+   
+   
+   },
+   
+   
+   
+   
+   
+   //start the game after player clicks "deal"
+start: function() {
+    
+       
+       //erase splits class until it's used
+    document.getElementById("splits").classname= null;
+    
+    //add in the new html for another hand
+    document.getElementById("splits").innerHTML=null;
+       
+       
+       
+       //clear/reset screen
+    document.getElementById("player0Card").innerHTML= null;
+    document.getElementById("player0Score").innerHTML=null;
+     document.getElementById("dealerCard").innerHTML=null;
+     document.getElementById("dealerScore").innerHTML=null;
+    
+ 
+    
+         // all event listeners removed
+      hit.removeEventListener("click",Player.pressDeal);
+    stand.removeEventListener("click",Player.pressDeal);
+    double.removeEventListener("click",Player.pressDeal);
+   surr.removeEventListener("click",Player.pressDeal);
+    document.getElementById("deal").removeEventListener("click", bank.start);
+    
+    
+    
+         // shuffle deck
+deck.shuffle();
+    
+  var bet=  bank.wager();
+    
+    
+        //if bet is 0 or null, retry.
+    if ( isNaN(bet) || bet == null) {
+        alert("Bet not recognized. Try again.");
+        return;
+    }
+    
+    if (bet == 0) {
+        alert("Bet cannot be 0. Try again.");
+        return;
+    }
+    
+    //can't bet more than you have
+    if (bet > bank.chips) {
+    alert("You can't cover that bet.Try again.");
+    return;
+}
+    
+    //bet goes through. subtract bet from bank.chips.
+    
+bank.chips -= bet;
+bank.bet = bet;
+    
+    bank.changeChips();
+    
+    
+    
+    //x and y = players first two cards dealt from deck object
+var x = deck.deal();
+var y = deck.deal();
+
+document.getElementById("alert").innerHTML="";
+
+//Call player to w 2 cards and a bet to start playing.
+Player.player(x,y,bet);
+    
+},
+
+
+
+
+//put chips on scoreboard
+changeChips: function() {
+    
+    var chips =document.getElementById("chips");
+    
+    chips.innerHTML = bank.chips;
+    
+}
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//DEALER OBJECT
+
+var Dealer = {
+    firstCard: 0,
+    secondCard: 0,
+    dealerTotal: 0,
+    aces: [],
+    insur: false,
+    
+    
+   
+   
+   
+    //dealer gets first two cards
+    
+    dealer: function(dfCard, dsCard){
+    
+    //Dealer gets dealt first two cards. One is shown to player. Rest of action waits on player.
+    
+    Dealer.firstCard= dfCard;
+    Dealer.secondCard = dsCard;
+  
+  
+  Dealer.addCardImage(Dealer.firstCard);
+  
+      //add two dealt cards to the usedCards array
+deck.usedCards.push(dfCard);
+deck.usedCards.push(dsCard);
+  
+  
+//put back of card image on screen
+Dealer.backSide();
+  
+  
+  //put value of firstCard in results box
+  document.getElementById("dealerScore").innerHTML=Dealer.firstCard.value;
+  
+  
+  if (Dealer.firstCard.value==11) {
+    
+    this.insur =this.insurance();
+  }
+  
+  if (this.insur == true) {
+return;
+  }
+  
+  //declare add. add = dealer first card + dealer 2nd card   
+var add = dfCard.value + dsCard.value;
+     
+    
+  
+  
+  
+
+    Dealer.dealerTotal = add;
+    
+    console.log(deck.usedCards);
+    
+    
+    
+    
+    //WORK IN PROGRESS MERGING PLAYER AND DEALER
+    if (add ==21){
+    //blackjack for dealer. declare function checking if player has bj
+     this.dealerTotal=add;
+     Dealer.dealerBj();
+    return;
+    }
+    },
+    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    //called by bank.compareandaward after player stands. Flip card over and add first two cards values into this.dealerScore. call hitorSTand
+   
+    dealerPlays: function() {
+    
+    //flip card over
+    Dealer.flipCard();
+    
+    var add = Dealer.firstCard.value + Dealer.secondCard.value;
+   Dealer.dealerTotal = add; 
+    Dealer.dealerScore();
+    this.hitOrStand();
+    
+    },
+    
+    
+    
+   
+   
+   
+   
+   
+   
+   //find out if dealer needs to hit or stand.
+   
+    hitOrStand: function() {
+    var i;
+    
+    
+    //dealer stays
+        if (Dealer.dealerTotal >=17 && Dealer.dealerTotal <=21) {
+            return;
+        }
+            
+            
+    //probably only used if dealt two aces
+    
+        if (Dealer.dealerTotal >21) {
+                Dealer.checkAces();
+                return;
+            }
+               
+  
+  
+  //less than 17, dealer hits. var i becomes new card
+          if (Dealer.dealerTotal <17) {
+        
+            //while add<17 dealer keeps hitting
+            while (Dealer.dealerTotal <17) {
+             i = deck.deal();
+              Dealer.dealerTotal += i.value;
+              
+            
+              
+              //add new card image to screen
+              Dealer.addCardImage(i);
+                Dealer.dealerScore();
+              deck.usedCards.push(i);
+                
+               
+               if (Dealer.dealerTotal >=17 && Dealer.dealerTotal <=21) {
+                            return;
+  
+                    
+                    }  
+               
+               //over 21. check to make sure no aces in hand
+                if (Dealer.dealerTotal > 21) {
+                    
+                    //make sure no aces function
+                    Dealer.checkAces();
+                    return;
+                    }  
+        
+        
+        }
+      }
+      
+           
+      
+
+    },
+
+
+
+     
+
+//Changes ace value to 1 if over 21  
+checkAces: function() {
+    
+    var aces = 0;
+    
+    var addUsed =0;
+    
+   Dealer.aces =[]; //reset array in case this is used twice
+   
+   
+    //loop thr usedCards array checking for aces. add non aces to addUsed. if 0 aces, dealer busts (over 21, no aces)
+    //add aces to aces array. change value of aces to 1 when neccesary and recalc totals.
+   
+    for ( var y = 0; y < deck.usedCards.length; y++) {
+       
+       
+        //if ace add to aces array and add to aces count. (DOES NOT ADD Ace TO addUsed)
+       
+        if (deck.usedCards[y].value == 11) {
+            Dealer.aces.push(deck.usedCards[y]);
+            aces++;
+            
+        
+        }
+        else {
+        //add up values that are not aces to var addUsed
+            addUsed +=deck.usedCards[y].value;
+        }
+    }
+        // end of loop
+        
+ 
+        //no aces dealer busts bc over 21
+        if (aces ==0) {
+            this.dealerBusts(this.dealerTotal);
+        }
+        
+        
+        
+        
+             else {
+            
+                    
+                    
+                     // one ace, change to secondary value of 1. change dealertotal to represent this. call hitorstand to recheck totals
+                    
+                     if (aces ==1) {
+                     addUsed+= this.aces[0].secValue;
+                        Dealer.dealerTotal=addUsed;
+                        Dealer.dealerScore();
+                        
+                       
+                        //if still over 21 after changing ace value. dealer busts.
+                                if (Dealer.dealerTotal> 21) {
+                                    this.dealerBusts(this.dealerTotal);
+                                        return;
+                                }                        
+                        
+                        
+                        this.hitOrStand();
+            
+                     }
+        
+        
+                        //2 or more aces. loop thru aces array
+                            else if (aces > 1) {
+           
+           
+           
+                            //first ace add 11. after add 1 (secValue). see if still under 21
+                            for (var x=0; x<this.aces.length; x++) {
+                
+                
+                                     if (x==0) {
+                                      addUsed+=this.aces[x].value;
+                                         }
+                    
+                                          else {
+                                        addUsed+=this.aces[x].secValue;
+                    
+                }
+            }
+                             //end of loop
+            
+            
+                                         //addused now less than 22 recheck totals w hitorstand
+                                                 if (addUsed <=21) {
+                                                  Dealer.dealerTotal = addUsed;
+                                                      Dealer.dealerScore();
+                                                      this.hitOrStand();
+                                         }
+                
+                
+                                             //over 21. changing first ace value to 1 by subtracting 10 from addused. recheck totals
+                                                else {
+                                                    
+                                                 addUsed= addUsed - 10;
+                                                 Dealer.dealerTotal = addUsed;
+                                                 Dealer.dealerScore();
+                                                 
+                                                 
+                                                 
+                                                 if (Dealer.dealerTotal > 21) {
+                                                    Dealer.dealerBusts(this.dealerTotal);
+                                                 }
+                                                 
+                                                 
+                                                 else {
+                                                 this.hitOrStand();
+                                                 }
+                                                    }
+            
+        
+                 }}
+  
+        
+},
+//END OF CHECK ACES FUNCTION
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+//Dealer gets BJ, has to check if player ties with BJ
+
+dealerBj: function() {
+
+    var playerTotal = Player.card1.value + Player.card2.value;
+
+    if (playerTotal !==21){
+        
+        //flip card over
+        Dealer.flipCard();
+        
+        //change results box
+        Dealer.dealerScore();
+        
+        
+        //blackjack for dealer
+    document.getElementById("alert").innerHTML="Dealer has blackjack. You lost your bet of " +bank.bet+ ".";
+
+    //show Player total
+    document.getElementById("player0Score").innerHTML =playerTotal;
+
+return;
+}
+
+
+
+//dealer and player tie with blackjack
+else  {
+    
+document.getElementById("alert").innerHTML="Player and Dealer both have blackjack. You tie!";
+
+    Dealer.flipCard();
+      Dealer.dealerScore();
+      document.getElementById("player0Score").innerHTML =playerTotal;
+      
+//get your bet back
+bank.chips+=bank.bet;
+
+//change chips display to match
+bank.changeChips();
+
+}
+
+
+},
+
+
+
+
+
+
+
+
+//if dealer goes over 21 this function is called
+dealerBusts: function(total) {
+    
+    //one hand no splits... award player the win
+    if (Player.which ==0) {
+   
+   document.getElementById("alert").innerHTML="The dealer busted with " +total+ ". You won " +bank.bet+"!";
+   bank.chips += (bank.bet *2);
+    
+ 
+    
+    }
+    
+   
+    
+    
+    
+    //award player multiple bets
+
+else {
+
+bank.chips += (bank.bet * 2) *Player.hands.length;
+
+    
+document.getElementById("alert").innerHTML="The dealer busted with " +Dealer.dealerTotal+ ". You win " +Player.hands.length + " seperate hands for "+ (bank.bet *Player.hands.length);
+   
+
+}
+
+
+
+  //change balance in chips display 
+   bank.changeChips(); 
+ 
+
+
+
+},
+
+
+
+
+    //add card image to screen after being dealt
+addCardImage: function(card) {
+    
+     //strings for easier adding to HTML
+var imgsrc= "<img src=";
+var style = "style=\"width:140px;height:195px;\">";
+    
+    //put dealer cards image on screen
+document.getElementById("dealerCard").innerHTML +=imgsrc +card.image+ style;
+    
+    
+},
+
+
+
+//displays back of card to player
+backSide: function() {
+
+//strings into variables for ease of use
+var imgsrc= "<img src=";
+var style = "style=\"width:140px;height:195px;\">";
+    
+
+document.getElementById("dealerCard").innerHTML +=imgsrc +"\"cardimages/playing-card-back.jpg\"" +style;
+    
+},
+
+
+
+
+
+//"flip" over dealer hidden card by changing innerHTML for both first cards
+flipCard: function() {
+    
+var imgsrc= "<img src=";
+var style = "style=\"width:140px;height:195px;\">";
+    
+    document.getElementById("dealerCard").innerHTML =imgsrc +Dealer.firstCard.image+ style+imgsrc+Dealer.secondCard.image+style;
+},
+    
+    
+    
+    
+    
+    
+    //post dealer score on screen in resultsbox
+dealerScore: function() {
+    
+    document.getElementById("dealerScore").innerHTML =Dealer.dealerTotal;
+    
+    
+     },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //it's always a bad bet ;)
+    insurance: function() {
+        
+        
+        //if player also has a blackjack
+        
+       if (Player.card1.value + Player.card2.value == 21) {
+        var y =confirm("Insurance pays even money on blackjack. Would you like to take it?");
+       
+       
+       //if yes, player gets 2 to 1 and hand ends by returning true
+                   
+                    if (y == true) {
+                        bank.chips+= (bank.bet *2);
+                        Dealer.flipCard();
+       
+    
+                 //change balance in chips display 
+                 bank.changeChips();
+                 
+ 
+                //clear out usedcards arrays
+                 deck.clearUsedCards();
+       
+                    return true;
+     }
+    
+                                else if (y == false) {
+                                 return false;
+    }
+    
+       }
+     
+       
+     
+    
+     
+      
+       
+       var x= confirm("Would you like to take insurance? It will cost half your bet or "+bank.bet/2);
+        
+        
+        
+        //if yes take half of bank.bet and subtract from chips
+        if (x==true) {
+           var insuranceBet= (bank.bet/2);
+           bank.chips -= insuranceBet;
+           bank.changeChips();
+       
+       
+                    //player buys insurance and loses. 
+                     if (Dealer.secondCard.value != 10) {
+        
+                             //play on
+                            alert("You lost your insurance bet of "+insuranceBet+".");
+                            return false;
+                             }
+       
+       
+                             
+       
+                                 //player wins insurance bet
+                                  else { 
+        
+                                     bank.chips += (insuranceBet *2)
+                                    alert("You won your insurance bet of "+insuranceBet+"!");
+                                    bank.changeChips();
+                                     return false;
+       }
+       
+        }
+       
+       
+       
+       
+       
+       
+       
+        //else player said no, return
+        else {
+            return false;
+        }
+       
+       
+       
+       
+        
+    },
+    
+    
+    
+
+    
+    
+    
+};  
+    
+
+//END OF DEALER OBJECT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//PLAYER OBJECT
+
+
+var Player = {
+
+card1: 0,
+card2: 0,
+hands: [],
+firstHandUsedCards: [],
+total: 0,
+aces: [],
+split: false,
+which: 0,
+splitCard1: 0,
+
+
+
+    
+player: function(pfCard, psCard, bet){
+     Player.card1 = pfCard;
+     Player.card2 = psCard;
+ 
+
+
+//put cards on screen 
+Player.addCardImage(Player.card1);
+Player.addCardImage(Player.card2);
+ 
+ 
+     //add hands to usedcardplayer array
+    deck.usedCardsPlayer.push(pfCard);
+    deck.usedCardsPlayer.push(psCard);
+ 
+  var f = deck.deal();
+var s = deck.deal();
+Dealer.dealer(f,s);
+
+
+
+//dealer has BJ or player took even money on insurance with BJ
+ if (Dealer.dealerTotal == 21 || Dealer.insur ==true) {
+    
+   
+     
+     
+//restart.reset
+letsGo();
+    return;
+ 
+ 
+} 
+   
+   
+    //if 21 call blackjack function
+else if (this.card1.value + this.card2.value ==21) {
+    
+    Player.blackjack(bet);
+        
+
+    
+    return;
+}
+ 
+ 
+
+   
+    
+ 
+ 
+
+//else the play function.
+    else {
+        Player.playerScore();
+        Player.play(Player.card1, Player.card2, Player.total);
+        
+ }
+
+},
+
+
+
+
+
+
+//blackjack = 2.5x the wager
+blackjack: function(wager) {
+   
+    var bjWin = wager *2.5;
+    document.getElementById("alert").innerHTML="You have blackjack. You won " + bjWin + " chips!";
+    
+    //lip dealer card over and change dealer score
+    Dealer.flipCard();
+    Dealer.dealerScore();
+    
+    //if dealer was dealt AA and u have a BJ (yes i know it's unlikely but i saw it happen)
+    if (Dealer.dealerScore == 22) {
+        
+        document.getElementById("dealerScore").innerHTML =12;
+    }
+    
+    //win 2.5x for blackjack
+    bank.chips += bjWin;
+
+//change chips display to match    
+bank.changeChips();
+//change scoredboard to 21
+document.getElementById("player0Score").innerHTML =21;
+
+//restart
+letsGo();
+},
+
+
+
+
+
+
+hit: function() {
+    
+        //extraCard = new card off of deck. add new card value + first two cards
+           
+            var extraCard = deck.deal();
+            
+            
+         
+     //new card image added to screen
+            Player.addCardImage(extraCard);
+            
+            //push card to used cards array
+       deck.usedCardsPlayer.push(extraCard);     
+         
+            
+            
+    //Change score
+       Player.playerScore();
+       
+       
+      //remove listeners for doubling/surr/split (not allowed to double etc after first hit)
+        var double = document.getElementById("double");
+    var surr = document.getElementById("surr");
+    var split = document.getElementById("split")
+    
+     double.removeEventListener("click",Player.doubleDown);
+   surr.removeEventListener("click",Player.surrender);
+    split.removeEventListener("click",Player.doSplit);
+    
+       
+       
+       //if over 21
+        if (Player.total > 21) {
+            Player.playerBusts();
+            
+           
+           
+            //if 21 auto-stand. 
+        } else if (Player.total == 21) {
+            alert("You finished with " + Player.total+ "!")
+            Player.hands.push(Player.total);
+            
+             if (Player.split ==true) {
+                
+                Player.splitHand();
+                return;
+            
+     }
+        
+       
+        
+        
+        bank.compareAndAward();
+            
+           }
+          
+        
+    
+},
+
+
+
+
+
+
+       
+play: function(firstCard, secondCard, total) {
+       
+       //the dealer card that is shown to the player;
+       var dealerCard = Dealer.secondCard;
+       
+       
+
+       
+       // if split and dealt 21, and split is true, call splitHand for next hand
+       if (firstCard.value + secondCard.value ==21 && Player.split ==true) {
+        alert("You finished with " + Player.total+ "!")
+        Player.hands.push(Player.total);
+        Player.splitHand();
+        return;
+       }
+      
+      //dealt 21 off a split, second hand
+       if (firstCard.value + secondCard.value ==21 && Player.which ==1) { 
+           alert("You finished with " + Player.total+ "!")
+           Player.hands.push(Player.total);
+          //because is last hand of split and no further action required call compareAndAward
+           bank.compareAndAward();
+           return;
+       }
+       
+       //give user options
+       
+       Player.hitStandDoubleSurr(total);
+       
+            
+            
+           
+},
+
+
+
+
+
+
+
+       
+playerBusts: function() {
+    
+    //you were dealt a card and went over. tell user how much they lost. Don't have to subtract from chips as that is already done.
+    
+    document.getElementById("alert").innerHTML="You finished with " + Player.total+ " and busted! You lost " +bank.bet +".";
+
+    //first hand after split, go to splitHand function
+    if (Player.split ==true) {
+        Player.splitHand();
+        return;
+    }
+    //2nd hand after split
+    if (Player.which >0 && Player.hands[0] >21) {
+        
+            //flip dealer card over and change dealer score
+    Dealer.flipCard();
+    Dealer.dealerScore();
+    
+    //reset and restart
+    letsGo();
+    return;
+    }
+
+
+else if (Player.which >0 && Player.hands[0] <= 21) {       
+        bank.compareAndAward();
+        return;
+    }
+    
+    
+    
+    //flip dealer card over and change dealer score
+    Dealer.flipCard();
+    Dealer.dealerScore();
+    
+    //reset and restart
+    letsGo();
+
+},
+
+
+
+
+//called if player doubles down. doubles bet and deals out one single card.
+doubleDown: function() {
+    
+    if (bank.bet > bank.chips) {
+        alert("You don't have enough chips to cover a double down.")
+        return;
+    }
+    //subtract the second bet (the double down) from the chips. We do this because first wager has already been subtracted from chips.
+    bank.chips -= bank.bet;
+    bank.changeChips();
+    
+    //double bet size
+    bank.bet *=2;
+    
+    alert("You have doubled down. Your bet is now "+ bank.bet)
+    
+    //deal card and show image
+    var doubleDownCard = deck.deal();
+    Player.addCardImage(doubleDownCard);
+    
+    
+
+
+deck.usedCardsPlayer.push(doubleDownCard);
+
+//change results box score
+Player.playerScore();
+
+
+//in case of soft number
+
+document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+        
+
+
+//over 21, player busts
+if (Player.total > 21) {
+     
+     Player.playerBusts();
+
+}
+
+
+else {
+    
+   //if under 21, push to hands array
+    
+    Player.hands.push(Player.total);
+    
+    
+    
+    bank.compareAndAward();
+} 
+
+},
+
+
+
+
+
+
+doSplit: function () {
+   
+   
+   
+    
+    //must subtract another bet
+    bank.chips -= bank.bet;
+    
+    //change score
+    bank.changeChips();
+    
+    //make class same as others
+    document.getElementById("splits").classname= "playingField";
+    
+    //add in the new html for another hand
+    document.getElementById("splits").innerHTML+=
+    "<div class='player'>Split</div><div id='player1Score'class='resultBox'></div><div class='cardArea'><div id='player1Card'></div></div>"
+   
+   
+   
+   
+   
+    //strings for easier adding to HTML
+var imgsrc= "<img src=";
+var style = "style=\"width:140px;height:195px;\">";
+
+
+//erase last card in usedcardsarray, save as splitCard1
+Player.splitCard1= deck.usedCardsPlayer.pop();
+
+//put my card image on second screen
+document.getElementById("player1Card").innerHTML +=imgsrc +Player.splitCard1.image+ style;
+    
+    
+    
+    //must erase card2 on first hand
+   document.getElementById("player0Card").innerHTML=null 
+    Player.addCardImage(Player.card1)
+
+
+
+
+
+
+//deal new card2 to first hand w image
+Player.card2= deck.deal();
+Player.addCardImage(Player.card2);
+
+//add card2 to used cards array
+deck.usedCardsPlayer.push(Player.card2);
+
+
+
+
+//change total to new value
+Player.total = Player.card1.value +Player.card2.value;
+
+
+//change score display for 1st hand
+document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+
+
+
+//change border color to yellow so player knows which hand is being acted upon
+document.getElementById("player0Card").style.border = "2px dashed yellow";
+
+//may need this not sure?
+Player.split=true;
+
+Player.play(Player.card1, Player.card2, Player.total);
+},
+
+
+
+
+
+
+
+
+
+splitHand: function() {
+//save first hand total
+
+
+
+Player.split =false;
+
+var firstHandTotal =Player.total;
+
+Player.which =1;
+
+//deal new card for split hand
+var splitCard2 = deck.deal();
+Player.addCardImage(splitCard2);
+
+//save old usedcards and insert new used cards for hand 2 with splice
+Player.firstHandUsedCards =deck.usedCardsPlayer.splice(0,deck.usedCardsPlayer.length, Player.splitCard1, splitCard2)
+
+console.log(Player.firstHandUsedCards);
+console.log(deck.usedCardsPlayer);
+
+
+Player.total= (Player.splitCard1.value + splitCard2.value);
+
+//change score display for 2nd hand
+document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+
+
+//turn first hand border color back to black
+document.getElementById("player0Card").style.border = "none";
+
+
+document.getElementById("player1Card").style.border = "2px dashed yellow";
+
+Player.play(Player.splitCard1, splitCard2, Player.total);
+
+
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+//player stands. all eventlisteners turned off. call dealer to finish
+playerStands: function() {
+
+
+
+//in case of soft number, changes to top hard number (ie 9/19 changes to 19)
+document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+
+
+//push player total to hands array for comparision if dealer does not bust
+Player.hands.push(Player.total);
+
+
+  if (Player.split ==true) {
+        Player.splitHand();
+        return;
+  
+    //ez variables
+    var hit = document.getElementById("hit")
+    var stand = document.getElementById("stand")
+    var double = document.getElementById("double")
+    var surr = document.getElementById("surr")
+    
+    
+    
+    
+    //remove all event listeners
+      hit.removeEventListener("click",Player.hit);
+    stand.removeEventListener("click",Player.playerStands);
+    double.removeEventListener("click",Player.doubleDown);
+   surr.removeEventListener("click",Player.surrender);
+    
+    
+   
+  
+        
+    
+    
+    
+    
+  
+    }
+    
+    
+    
+    //call compare and award function
+    bank.compareAndAward();
+},
+
+
+
+
+
+
+
+
+
+
+//surrender. dealt no more cards. get half your bet back.
+surrender: function() {
+        
+    // flip dealer card over
+    Dealer.flipCard();
+    
+    //show dealer score
+    Dealer.dealerScore();
+    
+    
+    //alert you surrendered
+    alert("You have surrendered. You get half your bet back, which is " +bank.bet *0.5)
+    
+    
+    //gain half your bet back
+    bank.chips += (bank.bet *0.5);
+    bank.changeChips();
+    
+    
+    //clear and restart
+    letsGo();
+},
+
+
+
+
+
+
+
+
+
+
+hasAces: function(amount) {
+    
+    
+//ace and <=21. (I have 10 written as ace is not counted in Player.total yet.) print score with soft number (ie 5/15)
+    
+    
+    //player has ace and gets 21 (no soft number needed)
+    if (amount ==1 && Player.total ==10) {
+        Player.total+= this.aces[0].value
+        
+  
+        document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+        return;
+    }
+    
+    
+    //1 ace and regular cards are less than ten. need soft number.
+    else if (amount ==1 && Player.total <10) {
+        
+        //add the ace to player total with full value of 11.
+        Player.total+= this.aces[0].value;
+       
+        //display on screen with soft number
+        document.getElementById("player0Score").innerHTML =(Player.total-10)+"/"+Player.total;
+            return;
+    }
+         
+         //one ace but over 21. subtract 10 from ace value and change Player.total
+        else if (amount==1 && Player.total >10) {
+           
+           //add ace with secValue of 1. no more soft numbers.
+           Player.total+= this.aces[0].secValue;
+           
+        document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+           return;
+            
+        }
+        
+                    //more than one ace but still under 10. 9 +11+1 = 21
+                     else if (amount >1 && Player.total <=9) {
+                        
+                         for (var x=0; x< this.aces.length; x++) {
+                        
+                        //since we still have a soft number. first iteration in loop adds full value of 11. past that all aces change to secValue(1)
+                        if (x==0) {
+                           Player.total+= this.aces[x].value;
+                        }
+                            else {
+                            Player.total+=this.aces[x].secValue;
+                        }
+                        }
+                        //display soft and hard number
+                        document.getElementById("player0Score").innerHTML =(Player.total-10)+"/"+Player.total;
+                                return;
+    }
+                        //change all aces to secValue(1)
+                        else if (amount >1 && Player.total >=10) {
+                             
+                              for (var y=0; y< this.aces.length; y++) {
+                                Player.total+=this.aces[y].secValue;
+                              }
+                                document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+                                
+                                return;
+                        }
+        
+    
+},
+
+
+hitStandDoubleSurr: function(total) {
+    //ez variables
+  
+  
+  
+  
+  
+    
+    var hit = document.getElementById("hit");
+    var stand = document.getElementById("stand");
+    var double = document.getElementById("double");
+    var split = document.getElementById("split");
+    var surr = document.getElementById("surr");
+   
+   //remove event listeners in case of previous split
+     double.removeEventListener("click",Player.doubleDown);
+   surr.removeEventListener("click",Player.surrender);
+   split.removeEventListener("click",Player.doSplit);
+   
+   
+   
+    
+    //add event listners to hit and stand
+    hit.addEventListener("click",Player.hit);
+   stand.addEventListener("click",Player.playerStands);
+   
+   
+   
+   
+   //if no splitting action has occured, allow surrender and double down
+   if (Player.split== false && Player.which ==0) {
+   
+    surr.addEventListener("click",Player.surrender);
+     double.addEventListener("click",Player.doubleDown);
+   }
+   
+   
+   
+   //if cards value match, AND there hasn't been a split already, allow for splitting
+   if (Player.card1.value == Player.card2.value) {
+    
+   
+   
+                if (Player.split== false && Player.which ==0) {
+   
+   
+                         split.addEventListener("click",Player.doSplit);
+   }
+   }
+   
+   
+},
+
+
+
+
+
+//adds card objects to screen by grabbing their .image and placing them in the DOM
+addCardImage: function(card) {
+    
+   
+   
+   
+    //strings for easier adding to HTML
+var imgsrc= "<img src=";
+var style = "style=\"width:140px;height:195px;\">";
+
+
+
+
+//put my card image on screen
+document.getElementById("player"+Player.which+"Card").innerHTML +=imgsrc +card.image+ style;
+},
+
+
+
+
+
+
+//Change and display Player's score in result box. Also change Player.total when aces are in hand.
+playerScore: function() {
+    
+    this.aces = [];
+    var aces =0;
+     Player.total =0;
+    
+    //grab hands from usedcards, if an ace, add to player.aces array. otherwise add to player.total and print to screen
+    for (var x=0; x<deck.usedCardsPlayer.length; x++)
+    
+    if (deck.usedCardsPlayer[x].value != 11) {
+        Player.total+= deck.usedCardsPlayer[x].value;
+        
+    }
+    else {
+        this.aces.push(deck.usedCardsPlayer[x])
+    aces++;
+        
+        }
+       //has an ace go to hasAces function to figure out that crazy shit.
+       if (aces > 0) {
+        
+        this.hasAces(aces);
+        return;
+       }
+       
+       
+       //no aces. print score to screen
+        else {
+        
+        document.getElementById("player"+Player.which+"Score").innerHTML =Player.total;
+        }
+    
+    
+ 
+},
+
+
+
+
+//user clicks on a button when hand is over. alert box directs them to press deal instead
+pressDeal: function() {
+    
+    document.getElementById("alert").innerHTML="Press Deal to Play";
+    
+    
+    
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
+
+
+//END OF PLAYER FUNCTIONS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//display chip balance
+bank.changeChips();
+
+
+
+
+
+
+
+
+// start the program and clear everything from the previous hand
+function letsGo() {
+
+
+
+
+
+//ez vars for listeners
+ var hit = document.getElementById("hit");
+    var stand = document.getElementById("stand");
+    var double = document.getElementById("double");
+    var surr = document.getElementById("surr");
+    var split = document.getElementById("split");
+var rules = document.getElementById("rules");
+
+
+//reset totals
+Player.total =0;
+Dealer.dealerTotal=0;
+Dealer.insur = false;
+Player.which =0;
+Player.split=false;
+
+
+
+//clear out usedcards arrays
+    deck.clearUsedCards();
+console.log(deck.cards.length)
+
+
+//rules button
+rules.addEventListener("click", function() {
+
+alert("Dealer must hit 16 or less.\nDealer stands on soft 17.\n1 split allowed.\nNo doubling or surrender on split.\nInsurance is available against an ace. It costs half the bet size.");
+
+
+}
+
+
+);
+                       
+   
+
+
+
+
+ // all event listeners removed
+      hit.removeEventListener("click",Player.hit);
+    stand.removeEventListener("click",Player.playerStands);
+    double.removeEventListener("click",Player.doubleDown);
+   surr.removeEventListener("click",Player.surrender);
+   split.removeEventListener("click",Player.doSplit);
+
+   
+//all event listeners directed to telling player to hit deal button instead
+hit.addEventListener("click",Player.pressDeal);
+   stand.addEventListener("click",Player.pressDeal);
+    double.addEventListener("click",Player.pressDeal);
+   surr.addEventListener("click",Player.pressDeal);
+   split.addEventListener("click",Player.pressDeal);
+
+
+
+
+
+// player hits deal button. deck shuffles, bet amount in field = var bet. 
+document.getElementById("deal").addEventListener("click", bank.start);
+
+
+
+   
+
+   
+   
+   
+    
+    
+    
+   
+   
+};
+    
+letsGo();
+
+
+
+   
+</script>
+</html>

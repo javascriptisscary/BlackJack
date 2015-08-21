@@ -1,0 +1,245 @@
+body {
+    background-color: #006633;
+    
+    
+}
+
+
+.cardArea {
+    float: left;
+    width: 74%;
+    
+    height: 200px;
+    
+}
+
+
+
+
+
+
+#dealer {
+color: #000000;
+font-family: Impact, Charcoal, sans-serif;
+font-size: 25px;
+float: left;
+border: 2px solid black;
+width: 97%;
+text-align: center;
+padding-left: 1%;
+background-color: #CC2900;
+margin: 1%;
+}
+
+.player {
+color: #000000;
+font-family: Impact, Charcoal, sans-serif;
+font-size: 25px;
+float: left;
+border: 2px solid black;
+width: 97%;
+text-align: center;
+
+margin: 1%;
+padding-left: 1%;
+background-color: #6699FF;
+
+}
+
+/* amount of chips box*/
+
+#chips {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    color: #FFFFFF;
+    background-color: #000000;
+    border: 2px dashed blue;;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 40px;
+    text-align: center;
+    clear: both;
+    margin-top: 5px;
+    
+}
+
+#dealField {
+    border: 2px solid black;
+    width: 25%;
+}
+
+.resultBox {
+    float: right;
+    width: 19%;
+    border: 2px solid blue;
+    height: 127px;
+    background-color: white;
+    text-align: center;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 102px;
+    color: #000000;
+    padding: 1%;
+    /*text-shadow: 2px 2px  #585858;*/
+}
+
+.dealing {
+    float: left;
+    margin:10px;
+}
+
+
+
+
+.dealbtn {
+    -webkit-border-radius: 30;
+  -moz-border-radius: 30;
+  border-radius: 31px;
+  text-shadow: 2px 2px 1px #000000;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 28px;
+  background: #195b87;
+  padding: 10px 20px 10px 20px;
+  border: solid #374147 2px;
+  text-decoration: none;
+ margin-left: auto;
+ margin-right: auto;
+  clear: both;
+  margin-top:5px;
+  margin-bottom:5px;
+  width: 20%;
+  text-align:center;
+ 
+    
+}
+
+.dealbtn:hover {
+    background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+
+  
+}
+
+/* text next to bet amount box*/
+#betAmount {
+    
+    
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 20px;
+    
+    text-shadow: 1px 1px 2px #FF0000;
+    margin-left: 5px;
+    
+}
+
+#playerBet {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 12%;
+    
+    width: 20%;
+    
+}
+
+
+.bAmount {
+    float:none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+   
+}
+
+/* contains buttons and alert box */
+#buttons {
+    
+    float: left;
+    margin-top: 10px;
+}
+
+
+
+
+
+.btn {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Georgia;
+  color: #000000;
+  font-size: 22px;
+  background: #bdb9b9;
+  padding: 10px 20px 10px 20px;
+  border: solid #000000 2px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #ffffff;
+  text-decoration: none;
+}
+
+
+
+
+#alert {
+    
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 28px;
+    color: gold;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    
+    clear: both;
+    
+}
+
+.rules {
+    
+    
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   padding: 6px 12px;
+   -webkit-border-radius: 7px;
+   -moz-border-radius: 7px;
+   border-radius: 7px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 10px;
+   font-family: Georgia, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   clear: none;
+   float: left;
+   }
+
+
+.rules:hover {
+   border-top-color: #28597a;
+   background: #28597a;
+   color: #ccc;
+   }
+
+
+.rules:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
+    
+    
